@@ -19,7 +19,7 @@ def generate_video_name():
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
-@app.get("/uploadvideo/")
+@app.get("/upload/")
 async def read_item(url: str,request: Request):
     try:
         # Download the video from the provided URL
@@ -33,12 +33,12 @@ async def read_item(url: str,request: Request):
             video_file.write(response.content)
 
         server_url = str(request.base_url)
-        return {"video_url": f"{server_url}get-video?file_path={video_file_path}"}
+        return {"video_url": f"{server_url}get?file_path={video_file_path}"}
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/get-video/")
+@app.get("/get/")
 async def get_video(file_path: str):
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="Video not found")
